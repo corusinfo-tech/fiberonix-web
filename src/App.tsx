@@ -22,6 +22,7 @@ import HomePage from "./pages/HomePage";
 import Add from "./pages/Add";
 import SubOffice from "./pages/SubOffice";
 import StaffList from "./pages/StaffList";
+import ForgotPassword from "./pages/ForgotPassword";
 
 Navigate;
 
@@ -107,6 +108,7 @@ const App = () => (
             <Route path="/staff" element={<StaffList />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} /> 
             <Route path="/settings" element={<Settings />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

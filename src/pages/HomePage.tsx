@@ -10,7 +10,7 @@ export default function HomePage() {
 
   const features = [
     {
-      title: "Device Management",
+      title: "Device Tracking",
       description:
         "View and manage all network devices including routers, switches, ONUs, and monitor their live status in real-time.",
       icon: <Router className="text-primary w-10 h-10" />,
@@ -18,15 +18,15 @@ export default function HomePage() {
       bg: "bg-primary/10",
     },
     {
-      title: "Customer Management",
+      title: "Customer Tracking",
       description:
-        "Easily track and manage customers, service plans, usage history, and support requests from a single dashboard.",
+        "Track your customers along with their service plans, usage history, and support requests—all from a single, easy-to-use dashboard.",
       icon: <Users className="text-success w-10 h-10" />,
       link: "/customers",
       bg: "bg-success/10",
     },
     {
-      title: "Junction Management",
+      title: "Junction Tracking",
       description:
         "View and control all junction points, splitters, and fiber connections with clear visual mapping and hierarchy.",
       icon: <Share2 className="text-warning w-10 h-10" />,
@@ -76,34 +76,42 @@ export default function HomePage() {
                       Real-Time
                     </h1>
                     <p className="text-xl text-muted-foreground leading-relaxed">
-                      Complete optical fiber network mapping, monitoring, and
-                      management solution. Track devices, monitor connections,
-                      manage customers, and receive instant alerts all from one
-                      powerful dashboard.
+                      FiberOnix is a sophisticated optical distributed network
+                      mapping solution that has been developed and is managed by{" "}
+                      <a href="https://rcubeventures.co.in/">
+                        <span className="font-bold text-primary">
+                          Rcube Ventures & Infrastructure Pvt Ltd
+                        </span>
+                      </a>{" "}
+                      . It allows for the precise tracking of devices,
+                      connections, couplers, splitters, OLTs, and ONTs. This
+                      application is accessible on both mobile and web
+                      platforms, and it includes an API for CRM integration. The
+                      app will provide you with the route and distance, which
+                      will allow you to figure out the optical fiber lengths for
+                      a new feasibility check.
                     </p>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
                     <a
                       href="https://github.com/AmmuVijayan2001/fibronics/releases/download/v1.0.0/app-release.apk"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="fw-bold text-primary text-decoration-none"
-                      style={{ letterSpacing: "0.01em" }}
+                      className="w-full sm:w-auto"
                     >
-                      <button
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl text-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
-                        
-                      >
+                      <button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl text-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
                         Download App
                       </button>
                     </a>
+
                     <button
-                      className="border-2 border-primary text-primary hover:bg-primary/10 px-8 py-4 rounded-2xl text-lg font-semibold transition-all"
+                      className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/10 px-8 py-4 rounded-2xl text-lg font-semibold transition-all"
                       onClick={handleDashboardClick}
                     >
                       Go to Dashboard
                     </button>
                   </div>
+
                   {/* <div className="flex items-center gap-6 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <i className="ri-check-line text-success w-5 h-5 flex items-center justify-center"></i>
@@ -131,6 +139,85 @@ export default function HomePage() {
                   <div className="absolute -bottom-4 -left-4 bg-success text-white p-3 rounded-full shadow-lg">
                     <i className="ri-pulse-line w-6 h-6 flex items-center justify-center"></i>
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* App Screenshots Section */}
+          <section id="screenshots" className="py-20 bg-gray-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="text-4xl font-bold text-foreground mb-4">
+                See Fiberonix in Action
+              </h2>
+              <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+                Explore how Fiberonix looks and works with our clean, intuitive,
+                and powerful interface.
+              </p>
+
+              {/* Desktop Grid */}
+              <div className="hidden lg:grid grid-cols-5 gap-6">
+                {[
+                  "WhatsApp Image 2025-08-21 at 5.11.49 PM.jpeg",
+                  "WhatsApp Image 2025-08-21 at 5.12.44 PM.jpeg",
+                  "WhatsApp Image 2025-08-21 at 5.13.00 PM.jpeg",
+                  "WhatsApp Image 2025-08-21 at 5.13.26 PM.jpeg",
+                  "WhatsApp Image 2025-08-21 at 5.13.55 PM.jpeg",
+                ].map((img, i) => (
+                  <div key={i} className="rounded-xl shadow-lg overflow-hidden">
+                    <img
+                      src={`./${img}`}
+                      alt={`App Screenshot ${i + 1}`}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile Carousel */}
+              <div className="lg:hidden relative">
+                <div
+                  id="screenshot-carousel"
+                  className="flex  overflow-x-auto snap-x snap-mandatory scrollbar-hide space-x-4 p-8"
+                >
+                  {[
+                    "WhatsApp Image 2025-08-21 at 5.11.49 PM.jpeg",
+                    "WhatsApp Image 2025-08-21 at 5.12.44 PM.jpeg",
+                    "WhatsApp Image 2025-08-21 at 5.13.00 PM.jpeg",
+                    "WhatsApp Image 2025-08-21 at 5.13.26 PM.jpeg",
+                    "WhatsApp Image 2025-08-21 at 5.13.55 PM.jpeg",
+                  ].map((img, i) => (
+                    <div
+                      key={i}
+                      className="min-w-full snap-center flex-shrink-0 rounded-xl overflow-hidden"
+                    >
+                      <img
+                        src={`./${img}`}
+                        alt={`App Screenshot ${i + 1}`}
+                        className="w-full h-[500px] object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Navigation buttons */}
+                <div className="flex justify-center gap-2 mt-4">
+                  {Array(5)
+                    .fill(0)
+                    .map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          document
+                            .getElementById("screenshot-carousel")
+                            .scrollTo({
+                              left: i * window.innerWidth,
+                              behavior: "smooth",
+                            });
+                        }}
+                        className="w-3 h-3 rounded-full bg-gray-400 hover:bg-primary transition-all"
+                      ></button>
+                    ))}
                 </div>
               </div>
             </div>
@@ -189,28 +276,26 @@ export default function HomePage() {
                   management. Get started with your free trial and experience
                   the future of fiber network monitoring.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-md mx-auto">
                   <a
                     href="https://github.com/AmmuVijayan2001/fibronics/releases/download/v1.0.0/app-release.apk"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="fw-bold text-primary text-decoration-none"
-                    style={{ letterSpacing: "0.01em" }}
+                    className="w-full sm:w-auto"
                   >
-                    <button
-                      className="bg-white hover:bg-gray-50 text-primary px-10 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 shadow-xl whitespace-nowrap cursor-pointer"
-                      
-                    >
+                    <button className="w-full bg-white hover:bg-gray-50 text-primary px-10 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 shadow-xl whitespace-nowrap cursor-pointer">
                       Download App
                     </button>
                   </a>
+
                   <button
-                    className="border-2 border-white text-white hover:bg-white/10 px-10 py-4 rounded-xl text-lg font-bold transition-all whitespace-nowrap cursor-pointer"
+                    className="w-full sm:w-auto border-2 border-white text-white hover:bg-white/10 px-10 py-4 rounded-xl text-lg font-bold transition-all whitespace-nowrap cursor-pointer"
                     onClick={handleDashboardClick}
                   >
                     Go to Dashboard
                   </button>
                 </div>
+
                 {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-primary-foreground/80">
                   <div className="flex items-center gap-2">
                     <i className="ri-check-line w-5 h-5 flex items-center justify-center"></i>
@@ -235,12 +320,23 @@ export default function HomePage() {
             <div className="grid md:grid-cols-4 gap-8">
               <div className="col-span-2 md:col-span-1">
                 <div className="mb-4">
-                  <span
+                  {/* <span
                     className="text-2xl font-bold"
                     style={{ fontFamily: "var(--font-pacifico)" }}
                   >
                     Network Command Center
-                  </span>
+                  </span> */}
+
+                  <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => navigate("/")}
+                  >
+                    <img
+                      src="./Fiberonix Logo 23.png"
+                      alt="Fiberonix Logo"
+                      className="h-12 w-auto object-contain"
+                    />
+                  </div>
                 </div>
                 <p className="mb-6">
                   The complete solution for fiber optic network mapping,
@@ -337,7 +433,7 @@ export default function HomePage() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="#"
+                      href="https://rcubeventures.co.in/about.html"
                       className="hover:text-primary transition-colors"
                     >
                       About
@@ -345,33 +441,46 @@ export default function HomePage() {
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://rcubeventures.co.in/blog.html"
                       className="hover:text-primary transition-colors"
                     >
                       Blog
                     </a>
                   </li>
+
                   <li>
                     <a
-                      href="#"
+                      href="https://rcubeventures.co.in/services.html"
                       className="hover:text-primary transition-colors"
                     >
-                      Careers
+                      Services
                     </a>
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://rcubeventures.co.in/contact.html"
                       className="hover:text-primary transition-colors"
                     >
-                      Privacy
+                      Contact Us
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
             <div className="border-t border-border mt-12 pt-8 text-center">
-              <p>&copy; 2024 Network Command Center. All rights reserved.</p>
+              <p>
+                &copy; 2025 <span className="font-bold">Fiberonix</span>. All
+                rights reserved.
+              </p>
+
+              <p>
+                Designed & Developed By 
+                <span className="font-bold">
+                  <a href="https://rcubeventures.co.in/index.html">
+                    Rcube Ventures & Infrastructure Pvt Ltd
+                  </a>
+                </span>
+              </p>
             </div>
           </div>
         </footer>

@@ -7,6 +7,8 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -56,6 +58,10 @@ export default function Login() {
 
   const [signupStep, setSignupStep] = useState(1);
   const [companyData, setCompanyData] = useState({});
+
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showAdminPassword, setShowAdminPassword] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -191,7 +197,16 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-background">
       <Toaster position="top-right" reverseOrder={false} />
       <Card className="w-full max-w-md shadow-xl border-0 bg-card/90 backdrop-blur-md">
-        <CardHeader className="text-center">
+        <CardHeader className="relative text-center">
+          {/* Home navigation arrow */}
+          <button
+            onClick={() => navigate("/")}
+            className="absolute right-2 top-2 p-2 rounded-full bg-primary/10 text-primary shadow-md hover:bg-primary/20 hover:scale-110 transition-all duration-200"
+            title="Go to Home"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+
           <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Welcome to Network Command Center
           </CardTitle>
@@ -199,6 +214,7 @@ export default function Login() {
             Sign in to your account or create a new one
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -225,19 +241,44 @@ export default function Login() {
                     </p>
                   )}
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <Label>Password</Label>
-                  <Input
-                    {...registerLogin("password")}
-                    type="password"
-                    placeholder="••••••••"
-                  />
+                  <div className="relative">
+                    <Input
+                      {...registerLogin("password")}
+                      type={showLoginPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-2.5 text-gray-500 hover:text-primary transition"
+                      onClick={() => setShowLoginPassword((prev) => !prev)}
+                    >
+                      {showLoginPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+
                   {loginErrors.password && (
                     <p className="text-red-500 text-sm">
                       {loginErrors.password.message}
                     </p>
                   )}
+
+                  {/* Right-aligned Forgot Password */}
+                  <div className="text-right mt-1">
+                    <a
+                      className="text-sm text-primary hover:underline cursor-pointer"
+                      onClick={() => navigate("/forgot-password")}
+                    >
+                      Forgot Password?
+                    </a>
+                  </div>
                 </div>
+
                 <Button
                   className="w-full bg-gradient-primary text-primary-foreground shadow-glow"
                   type="submit"
@@ -351,11 +392,25 @@ export default function Login() {
                   </div>
                   <div>
                     <Label>Password</Label>
-                    <Input
-                      {...registerAdmin("password")}
-                      type="password"
-                      placeholder="••••••••"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...registerAdmin("password")}
+                        type={showAdminPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-2.5 text-gray-500 hover:text-primary transition"
+                        onClick={() => setShowAdminPassword((prev) => !prev)}
+                      >
+                        {showAdminPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+
                     {adminErrors.password && (
                       <p className="text-red-500 text-sm">
                         {adminErrors.password.message}

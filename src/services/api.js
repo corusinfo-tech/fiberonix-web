@@ -317,6 +317,37 @@ export const createStaff = async (payload) => {
 
 
 
+// FORGOT PASSWORD - Send OTP
+export const forgotPassword = async (email) => {
+  const { data } = await api.post(
+    "/opticalfiber/forgot/password/",
+    { email },
+    { headers: { Accept: "application/json" } }
+  );
+  return data;
+};
+
+// VERIFY OTP
+export const verifyOtp = async (email, otp) => {
+  const { data } = await api.post(
+    "/opticalfiber/verify/otp/",
+    { email, otp: otp.toString() },
+    { headers: { Accept: "application/json" } }
+  );
+  return data;
+};
+
+// RESET PASSWORD
+export const resetPassword = async (email, newPassword) => {
+  const { data } = await api.post(
+    "/opticalfiber/reset/password/",
+    { email, new_password: newPassword },
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return data;
+};
+
+
 
 
 export default api;

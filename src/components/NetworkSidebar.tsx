@@ -113,12 +113,12 @@ export function NetworkSidebar() {
               </p> */}
               <div
                 className=""
-                style={{ height: "80px", width: "150px", objectFit: "contain" }}
+                
               >
                 <img
-                  src="./ChatGPT Image Aug 9, 2025, 12_20_25 PM23 (1).png"
+                  src="./Fiberonix Logo 23.png"
                   alt="Logo"
-                  style={{ maxHeight: "100%", width: "100%" }} // adjust 40px to your liking
+                  style={{ maxHeight: "100%", width: "75%" }} // adjust 40px to your liking
                 />
               </div>
             </div>
