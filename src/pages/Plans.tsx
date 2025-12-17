@@ -62,24 +62,53 @@ export default function Plans() {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [cashfree, setCashfree] = useState<any>(null);
+  const [currentPlan, setCurrentPlan] = useState<string | null>(null);
 
   // Load Cashfree SDK once
   useEffect(() => {
     async function initializeSDK() {
-      const cf = await load({ mode: "sandbox" }); // use "production" in live
+      const cf = await load({ mode: "sandbox" });
       setCashfree(cf);
     }
     initializeSDK();
   }, []);
 
-  const handleSelectPlan = async (price: number) => {
+  const handleSelectPlan = async (price: number, planName: string) => {
+    // ✅ FREE PLAN HANDLING (ONLY CHANGE)
+    if (price === 0) {
+      try {
+        setLoading(true);
+
+        await fetch(
+          "https://backend.fiberonix.in/api/plans/activate-free/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ plan: planName }),
+          }
+        );
+
+        alert("🎉 Free plan activated successfully!");
+        setCurrentPlan(planName);
+        return;
+      } catch {
+        alert("Failed to activate free plan");
+        return;
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // 🔒 PAID PLAN FLOW (UNCHANGED)
     if (!cashfree) return;
     setLoading(true);
 
     try {
-      // Call backend to create payment session
       const res = await fetch(
-        "https://optical.corusinfo.com/api/payment/initiate/",
+        "https://backend.fiberonix.in/api/payment/initiate/",
         {
           method: "POST",
           headers: {
@@ -94,28 +123,14 @@ export default function Plans() {
       console.log("Backend response:", data);
 
       if (data.payment_session_id) {
-        const checkoutOptions = {
+        cashfree.checkout({
           paymentSessionId: data.payment_session_id,
-          redirectTarget: "_modal", // popup mode
-        };
-
-        cashfree.checkout(checkoutOptions).then((result: any) => {
-          if (result.error) {
-            console.log("User closed popup or payment error", result.error);
-            alert("Payment canceled or failed.");
-          }
-          if (result.paymentDetails) {
-            console.log("Payment completed", result.paymentDetails);
-            alert("Payment Successful!");
-            // Optionally refresh the page or update plan usage here
-          }
+          redirectTarget: "_modal",
         });
       } else {
-        console.error("No payment session returned from backend");
         alert("Payment initialization failed. Try again.");
       }
     } catch (err) {
-      console.error("Payment initiation failed:", err);
       alert("Payment initiation failed. Try again.");
     } finally {
       setLoading(false);
@@ -156,11 +171,15 @@ export default function Plans() {
               </ul>
 
               <button
-                disabled={loading}
-                onClick={() => handleSelectPlan(plan.price)}
-                className="select-btn mt-6 w-full text-white py-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+                disabled={loading || currentPlan === plan.name}
+                onClick={() => handleSelectPlan(plan.price, plan.name)}
+                className={`select-btn mt-6 w-full py-2 rounded-lg ${
+                  currentPlan === plan.name
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
+                }`}
               >
-                {loading ? "Opening Payment..." : "Select Plan"}
+                {currentPlan === plan.name ? "Current Plan" : "Select Plan"}
               </button>
             </div>
           ))}

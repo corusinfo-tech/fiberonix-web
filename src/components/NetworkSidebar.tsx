@@ -70,6 +70,11 @@ const menuItems = [
     icon: UserCog,
   },
   {
+    title: "Network Design",
+    url: "/network-design",
+    icon: UserCog,
+  },
+  {
     title: "Payments",
     url: "/payments",
     icon: CreditCard,

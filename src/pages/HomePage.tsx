@@ -309,7 +309,7 @@ export default function HomePage() {
                     <i className="ri-check-line w-5 h-5 flex items-center justify-center"></i>
                     <span>24/7 support</span>
                   </div>
-                </div> */}
+                </div> */}  
               </div>
             </div>
           </section>
