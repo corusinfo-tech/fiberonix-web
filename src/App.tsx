@@ -23,6 +23,8 @@ import Add from "./pages/Add";
 import SubOffice from "./pages/SubOffice";
 import StaffList from "./pages/StaffList";
 import ForgotPassword from "./pages/ForgotPassword";
+import NetworkDesign from "./pages/NetworkDesign";
+import CouplerFlowPage from "./pages/CouplerFlowPage";
 
 Navigate;
 
@@ -101,6 +103,22 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <SubOffice />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/network-design"
+              element={
+                <ProtectedRoute>
+                  <NetworkDesign />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/network-design/:id"
+              element={
+                <ProtectedRoute>
+                  <CouplerFlowPage />
                 </ProtectedRoute>
               }
             />

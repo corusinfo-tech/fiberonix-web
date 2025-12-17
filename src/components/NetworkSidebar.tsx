@@ -72,7 +72,7 @@ const menuItems = [
   {
     title: "Network Design",
     url: "/network-design",
-    icon: UserCog,
+    icon: FileText,
   },
   {
     title: "Payments",
