@@ -162,7 +162,7 @@ export default function Payments() {
                               {payment.status}
                             </Badge>
                           </TableCell>
-                          <TableCell>
+                          {/* <TableCell>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="sm">
@@ -173,7 +173,7 @@ export default function Payments() {
                                 <DropdownMenuItem>View Details</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>
@@ -203,7 +203,7 @@ export default function Payments() {
                           <strong>Status:</strong> <Badge className={getStatusColor(payment.status)}>{payment.status}</Badge>
                         </div>
                       </div>
-                      <div className="mt-2 flex justify-end">
+                      {/* <div className="mt-2 flex justify-end">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm">
@@ -214,7 +214,7 @@ export default function Payments() {
                             <DropdownMenuItem>View Details</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>

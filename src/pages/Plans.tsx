@@ -3,7 +3,7 @@
 import { NetworkLayout } from "@/components/NetworkLayout";
 import "./Plans.css";
 import { useEffect, useState } from "react";
-import { Globe, Map, Route, Navigation } from "lucide-react";
+import { Globe, Map, Route, Navigation, Zap } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { load } from "@cashfreepayments/cashfree-js";
 
@@ -15,46 +15,80 @@ const plans = [
   {
     id: 1,
     icon: Globe,
-    name: "50 KM Free Plan",
-    description: "Perfect for small projects and getting started",
+    name: "Free",
+    description: "Single user",
     price: 0,
-    period: "month",
+    period: "year",
     features: [
-      "Basic route mapping",
-      "Up to 500 KM tracking",
-      "Standard support",
+      "Single user",
+      "50 km",
+      "Demo videos",
     ],
     theme: "plan-green",
   },
   {
     id: 2,
-    icon: Map,
-    name: "100 KM Plan",
-    description: "Ideal for small to medium network projects",
-    price: 999,
-    period: "month",
-    features: ["Advanced mapping tools", "Up to 10000 KM", "Standard support"],
+    icon: Zap,
+    name: "Plan Starter",
+    description: "500 km",
+    price: 12000,
+    period: "year",
+    features: [
+      "Single user – App / Web",
+      "1 session / user",
+      "500 km",
+      "Standard support",
+      "Add-on: ₹3,000 / year – additional user",
+    ],
     theme: "plan-blue",
   },
   {
     id: 3,
-    icon: Route,
-    name: "500 KM Plan",
-    description: "Great for expanding networks",
-    price: 3999,
-    period: "month",
-    features: ["Advanced mapping tools", "Up to 10000 KM", "Standard support"],
+    icon: Map,
+    name: "Plan Standard",
+    description: "1,000 km",
+    price: 18000,
+    period: "year",
+    features: [
+      "2 users",
+      "2 sessions total (1 app, 1 web)",
+      "1,000 km",
+      "Standard support",
+      "Add-on: ₹4,000 / year – additional users",
+    ],
     theme: "plan-orange",
   },
   {
     id: 4,
-    icon: Navigation,
-    name: "1000 KM Plan",
-    description: "Best for large network projects",
-    price: 7999,
-    period: "month",
-    features: ["Advanced mapping tools", "Up to 10000 KM", "Premium support"],
+    icon: Route,
+    name: "Plan Pro",
+    description: "2,000 km",
+    price: 24000,
+    period: "year",
+    features: [
+      "2 users",
+      "2 sessions / user (1 app, 1 web)",
+      "2,000 km",
+      "Standard support",
+      "Add-on: ₹4,000 / user – additional user",
+    ],
     theme: "plan-red",
+  },
+  {
+    id: 5,
+    icon: Navigation,
+    name: "Plan Enterprise",
+    description: "Up to 10,000 km",
+    price: 48000,
+    period: "year",
+    features: [
+      "Unlimited users",
+      "2 sessions / user (1 app, 1 web)",
+      "Up to 10,000 km",
+      "Standard support",
+      "Add-on: ₹4,000 / user – additional user",
+    ],
+    theme: "plan-purple",
   },
 ];
 
@@ -140,7 +174,7 @@ export default function Plans() {
   return (
     <NetworkLayout>
       <div className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {plans.map((plan) => (
             <div
               key={plan.id}
@@ -154,21 +188,21 @@ export default function Plans() {
               <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
 
               <div className="text-2xl font-bold">
-                ₹{plan.price}
+                ₹{plan.price.toLocaleString()}
                 <span className="text-sm font-normal text-gray-500">
                   {" "}
                   / {plan.period}
                 </span>
               </div>
 
-              {/* <ul className="mt-4 space-y-1 text-sm text-gray-700">
+              <ul className="mt-4 space-y-1 text-sm text-gray-700">
                 {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <span className="text-green-500 mr-2">✔</span>
-                    {feature}
+                  <li key={index} className="flex items-start">
+                    <span className="text-green-500 mr-2 mt-1">✔</span>
+                    <span>{feature}</span>
                   </li>
                 ))}
-              </ul> */}
+              </ul>
 
               <button
                 disabled={loading || currentPlan === plan.name}
