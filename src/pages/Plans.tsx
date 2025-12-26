@@ -15,7 +15,7 @@ const plans = [
   {
     id: 1,
     icon: Globe,
-    name: "Free Plan",
+    name: "50 KM Free Plan",
     description: "Perfect for small projects and getting started",
     price: 0,
     period: "month",
@@ -161,14 +161,14 @@ export default function Plans() {
                 </span>
               </div>
 
-              <ul className="mt-4 space-y-1 text-sm text-gray-700">
+              {/* <ul className="mt-4 space-y-1 text-sm text-gray-700">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-center">
                     <span className="text-green-500 mr-2">✔</span>
                     {feature}
                   </li>
                 ))}
-              </ul>
+              </ul> */}
 
               <button
                 disabled={loading || currentPlan === plan.name}

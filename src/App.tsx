@@ -122,11 +122,35 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route path="/payments" element={<Payments />} />
-            <Route path="/staff" element={<StaffList />} />
-            <Route path="/plans" element={<Plans />} />
+            <Route
+              path="/payments"
+              element={
+                <ProtectedRoute>
+                  <Payments />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/staff"
+              element={
+                <ProtectedRoute>
+                  <StaffList />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/plans"
+              element={
+                <ProtectedRoute>
+                  <Plans />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="/contact" element={<Contact />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} /> 
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/settings" element={<Settings />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

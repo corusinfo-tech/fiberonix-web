@@ -5,57 +5,27 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Plus, Search, MoreVertical, DollarSign, TrendingUp, Download, CreditCard } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search, MoreVertical, DollarSign, CreditCard, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchPayments } from "@/services/api";
 
-const payments = [
-  {
-    id: "PAY-001",
-    customer: "John Anderson",
-    customerId: "CUST-001",
-    amount: 79.99,
-    plan: "Premium",
-    date: "Jan 15, 2024",
-    status: "completed",
-    method: "Credit Card",
-    invoice: "INV-2024-001"
-  },
-  {
-    id: "PAY-002",
-    customer: "Sarah Chen", 
-    customerId: "CUST-002",
-    amount: 39.99,
-    plan: "Basic",
-    date: "Jan 12, 2024",
-    status: "completed",
-    method: "Bank Transfer",
-    invoice: "INV-2024-002"
-  },
-  {
-    id: "PAY-003",
-    customer: "Mike Rodriguez",
-    customerId: "CUST-003",
-    amount: 149.99,
-    plan: "Enterprise", 
-    date: "Jan 10, 2024",
-    status: "pending",
-    method: "Credit Card",
-    invoice: "INV-2024-003"
-  },
-  {
-    id: "PAY-004",
-    customer: "Lisa Wang",
-    customerId: "CUST-004",
-    amount: 79.99,
-    plan: "Premium",
-    date: "Jan 8, 2024",
-    status: "failed",
-    method: "Credit Card",
-    invoice: "INV-2024-004"
-  }
-];
+interface Payment {
+  transaction_id: string;
+  amount: number;
+  status: string;
+  payment_method: string;
+  created_at: string;
+}
 
 const getStatusColor = (status: string) => {
-  switch (status) {
+  switch (status.toLowerCase()) {
     case "completed": return "bg-success text-success-foreground";
     case "pending": return "bg-warning text-warning-foreground";
     case "failed": return "bg-destructive text-destructive-foreground";
@@ -64,69 +34,64 @@ const getStatusColor = (status: string) => {
 };
 
 export default function Payments() {
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Pagination
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredPayments = payments.filter((payment) =>
+    payment.transaction_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.payment_method.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.amount.toString().includes(searchTerm)
+  );
+
+  const paginatedPayments = filteredPayments.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+  const totalPages = Math.ceil(filteredPayments.length / pageSize);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, pageSize]);
+
+  useEffect(() => {
+    const loadPayments = async () => {
+      try {
+        const data = await fetchPayments();
+        if (data && data.payments) {
+          setPayments(data.payments);
+        } else {
+          setPayments([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch payments:", err);
+        setError("Failed to load payment history");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPayments();
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+  };
+
   return (
     <NetworkLayout>
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Payment Management</h1>
-            <p className="text-muted-foreground text-sm sm:text-base">Track payments, invoices, and revenue</p>
+            <p className="text-muted-foreground text-sm sm:text-base">Track payments and transactions</p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto">
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
-            <Button className="bg-gradient-primary hover:opacity-90 text-primary-foreground shadow-glow w-full sm:w-auto">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Payment
-            </Button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          <Card className="bg-gradient-to-br from-card via-card to-success/5 border-success/20 shadow-elegant">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-success">Monthly Revenue</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$47,892</div>
-              <p className="text-xs text-muted-foreground flex items-center">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                +12% from last month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-card via-card to-primary/5 border-primary/20 shadow-elegant">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-primary">Total Payments</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">1,247</div>
-              <p className="text-xs text-muted-foreground">This month</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-card via-card to-warning/5 border-warning/20 shadow-elegant">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-warning">Pending</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">23</div>
-              <p className="text-xs text-muted-foreground">$1,847 total</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-card via-card to-destructive/5 border-destructive/20 shadow-elegant">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-destructive">Failed</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">12</div>
-              <p className="text-xs text-muted-foreground">Needs attention</p>
-            </CardContent>
-          </Card>
         </div>
 
         <Card className="shadow-elegant backdrop-blur-sm bg-card/95">
@@ -139,69 +104,106 @@ export default function Payments() {
               <div className="flex items-center space-x-2 w-full sm:w-auto">
                 <div className="relative w-full sm:w-64">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search payments..." className="pl-8 w-full sm:w-64" />
+                  <Input 
+                    placeholder="Search payments..." 
+                    className="pl-8 w-full sm:w-64" 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
           </CardHeader>
           <CardContent className="p-0">
-            {/* Desktop/tablet table */}
-            <div className="hidden sm:block w-full overflow-x-auto">
-              <Table className="min-w-[900px]">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Payment ID</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Plan</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Method</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Invoice</TableHead>
-                    <TableHead className="w-[50px]"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {payments.map((payment) => (
-                    <TableRow key={payment.id} className="hover:bg-muted/50">
-                      <TableCell>
-                        <div className="flex items-center space-x-3">
-                          <div className="p-2 bg-primary/10 rounded-lg">
-                            <DollarSign className="w-4 h-4 text-primary" />
-                          </div>
-                          <span className="font-mono text-sm">{payment.id}</span>
+            {loading ? (
+              <div className="flex justify-center items-center p-8">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : error ? (
+              <div className="p-8 text-center text-destructive">{error}</div>
+            ) : (
+              <>
+                {/* Desktop/tablet table */}
+                <div className="hidden sm:block w-full overflow-x-auto">
+                  <Table className="min-w-[900px]">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Transaction ID</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Method</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="w-[50px]"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {paginatedPayments.map((payment) => (
+                        <TableRow key={payment.transaction_id} className="hover:bg-muted/50">
+                          <TableCell>
+                            <div className="flex items-center space-x-3">
+                              <div className="p-2 bg-primary/10 rounded-lg">
+                                <DollarSign className="w-4 h-4 text-primary" />
+                              </div>
+                              <span className="font-mono text-sm">{payment.transaction_id}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="font-semibold">₹{payment.amount.toFixed(2)}</div>
+                          </TableCell>
+                          <TableCell className="text-sm">{formatDate(payment.created_at)}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <CreditCard className="w-4 h-4 text-muted-foreground" />
+                              <span className="text-sm capitalize">{payment.payment_method}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge className={getStatusColor(payment.status)}>
+                              {payment.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm">
+                                  <MoreVertical className="w-4 h-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem>View Details</DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                {/* Mobile cards */}
+                <div className="sm:hidden flex flex-col space-y-4 p-2">
+                  {paginatedPayments.map((payment) => (
+                    <div key={payment.transaction_id} className="bg-muted/30 rounded-xl p-4 shadow-sm">
+                      <div className="flex items-center space-x-3 mb-2">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <DollarSign className="w-5 h-5 text-primary" />
                         </div>
-                      </TableCell>
-                      <TableCell>
                         <div>
-                          <div className="font-medium">{payment.customer}</div>
-                          <div className="text-sm text-muted-foreground">{payment.customerId}</div>
+                          <div className="font-semibold font-mono text-xs break-all">{payment.transaction_id}</div>
+                          <div className="text-xs text-muted-foreground">{formatDate(payment.created_at)}</div>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-semibold">${payment.amount}</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{payment.plan}</Badge>
-                      </TableCell>
-                      <TableCell className="text-sm">{payment.date}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <CreditCard className="w-4 h-4 text-muted-foreground" />
-                          <span className="text-sm">{payment.method}</span>
+                      </div>
+                      <div className="text-sm">
+                        <div>
+                          <strong>Amount:</strong> ₹{payment.amount.toFixed(2)}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={getStatusColor(payment.status)}>
-                          {payment.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm" className="text-primary hover:text-primary">
-                          {payment.invoice}
-                        </Button>
-                      </TableCell>
-                      <TableCell>
+                        <div>
+                          <strong>Method:</strong> <span className="capitalize">{payment.payment_method}</span>
+                        </div>
+                        <div>
+                          <strong>Status:</strong> <Badge className={getStatusColor(payment.status)}>{payment.status}</Badge>
+                        </div>
+                      </div>
+                      <div className="mt-2 flex justify-end">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm">
@@ -210,81 +212,72 @@ export default function Payments() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem>View Details</DropdownMenuItem>
-                            <DropdownMenuItem>Download Invoice</DropdownMenuItem>
-                            <DropdownMenuItem>Send Receipt</DropdownMenuItem>
-                            {payment.status === "failed" && (
-                              <DropdownMenuItem>Retry Payment</DropdownMenuItem>
-                            )}
-                            {payment.status === "completed" && (
-                              <DropdownMenuItem className="text-destructive">Refund</DropdownMenuItem>
-                            )}
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
+                      </div>
+                    </div>
                   ))}
-                </TableBody>
-              </Table>
-            </div>
-            {/* Mobile cards */}
-            <div className="sm:hidden flex flex-col space-y-4 p-2">
-              {payments.map((payment) => (
-                <div key={payment.id} className="bg-muted/30 rounded-xl p-4 shadow-sm">
-                  <div className="flex items-center space-x-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <DollarSign className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <div className="font-semibold font-mono">{payment.id}</div>
-                      <div className="text-xs text-muted-foreground">{payment.customerId}</div>
-                    </div>
-                  </div>
-                  <div className="text-sm">
-                    <div>
-                      <strong>Customer:</strong> {payment.customer}
-                    </div>
-                    <div>
-                      <strong>Amount:</strong> ${payment.amount}
-                    </div>
-                    <div>
-                      <strong>Plan:</strong> <Badge variant="outline">{payment.plan}</Badge>
-                    </div>
-                    <div>
-                      <strong>Date:</strong> {payment.date}
-                    </div>
-                    <div>
-                      <strong>Method:</strong> {payment.method}
-                    </div>
-                    <div>
-                      <strong>Status:</strong> <Badge className={getStatusColor(payment.status)}>{payment.status}</Badge>
-                    </div>
-                    <div>
-                      <strong>Invoice:</strong> <span className="text-primary">{payment.invoice}</span>
-                    </div>
-                  </div>
-                  <div className="mt-2 flex justify-end">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreVertical className="w-4 h-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
-                        <DropdownMenuItem>Download Invoice</DropdownMenuItem>
-                        <DropdownMenuItem>Send Receipt</DropdownMenuItem>
-                        {payment.status === "failed" && (
-                          <DropdownMenuItem>Retry Payment</DropdownMenuItem>
-                        )}
-                        {payment.status === "completed" && (
-                          <DropdownMenuItem className="text-destructive">Refund</DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                </div>
+
+                {/* Pagination */}
+                <div className="flex justify-center items-center p-4 border-t">
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage(1)}
+                      disabled={page === 1}
+                    >
+                      ≪
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >
+                      ‹
+                    </Button>
+                    <span className="text-sm">
+                      Page {page} of {totalPages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={page === totalPages}
+                    >
+                      ›
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage(totalPages)}
+                      disabled={page === totalPages}
+                    >
+                      ≫
+                    </Button>
+                    <Select
+                      value={pageSize.toString()}
+                      onValueChange={(val) => {
+                        setPageSize(Number(val));
+                        setPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="w-20">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="5">5</SelectItem>
+                        <SelectItem value="10">10</SelectItem>
+                        <SelectItem value="20">20</SelectItem>
+                        <SelectItem value="50">50</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-              ))}
-            </div>
+              </>
+            )}
           </CardContent>
         </Card>
       </div>

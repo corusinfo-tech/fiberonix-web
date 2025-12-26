@@ -350,4 +350,13 @@ export const resetPassword = async (email, newPassword) => {
 
 
 
+// FETCH PAYMENTS
+export const fetchPayments = async () => {
+  const token = localStorage.getItem("authToken");
+  const { data } = await api.get("/payment/list/", {
+    headers: { Authorization: `${token}` },
+  });
+  return data;
+};
+
 export default api;
