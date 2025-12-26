@@ -48,6 +48,56 @@
     background-color: #ffe6e9;
     color: #f18590;
   }
+/* Free Plan - Green Theme */
+.plan-green .icon-box {
+    background-color: #e0f5e9;
+    color: #89dd9c;
+  }
+  .plan-green .progress-bar {
+    background-color: #89dd9c;
+  }
+  .plan-green .select-btn {
+    background-color: #89dd9c;
+  }
+  .plan-green .select-btn:hover {
+    background-color: #218838;
+  }
+  
+  /* 100 KM Plan - Blue Theme */
+  .plan-blue .icon-box {
+    background-color: #e5f0ff;
+    color: #65a2e2;
+  }
+  .plan-blue .progress-bar {
+    background-color: #65a2e2;
+  }
+  .plan-blue .select-btn {
+    background-color: #65a2e2;
+  }
+  .plan-blue .select-btn:hover {
+    background-color: #0069d9;
+  }
+  
+  /* 500 KM Plan - Orange Theme */
+  .plan-orange .icon-box {
+    background-color: #fff2e6;
+    color: #f1aa6f;
+  }
+  .plan-orange .progress-bar {
+    background-color: #f1aa6f;
+  }
+  .plan-orange .select-btn {
+    background-color: #f1aa6f;
+  }
+  .plan-orange .select-btn:hover {
+    background-color: #e56f0f;
+  }
+  
+  /* 1000 KM Plan - Red Theme */
+  .plan-red .icon-box {
+    background-color: #ffe6e9;
+    color: #f18590;
+  }
   .plan-red .progress-bar {
     background-color: #f18590;
   }
@@ -58,4 +108,32 @@
     background-color: #c82333;
   }
   
-  
+/* Enterprise Plan - Purple Theme */
+.plan-purple .icon-box {
+  background-color: #f3e5f5;
+  color: #9c27b0;
+}
+.plan-purple .progress-bar {
+  background-color: #9c27b0;
+}
+.plan-purple .select-btn {
+  background-color: #9c27b0;
+}
+.plan-purple .select-btn:hover {
+  background-color: #7b1fa2;
+}
+
+/* CRM Plan - Teal Theme */
+.plan-teal .icon-box {
+  background-color: #e0f2f1;
+  color: #009688;
+}
+.plan-teal .progress-bar {
+  background-color: #009688;
+}
+.plan-teal .select-btn {
+  background-color: #009688;
+}
+.plan-teal .select-btn:hover {
+  background-color: #00796b;
+}

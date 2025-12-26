@@ -3,7 +3,7 @@
 import { NetworkLayout } from "@/components/NetworkLayout";
 import "./Plans.css";
 import { useEffect, useState } from "react";
-import { Globe, Map, Route, Navigation, Zap } from "lucide-react";
+import { Globe, Map, Route, Navigation, Zap, Database } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { load } from "@cashfreepayments/cashfree-js";
 
@@ -63,7 +63,7 @@ const plans = [
     icon: Route,
     name: "Plan Pro",
     description: "2,000 km",
-    price: 24000,
+    price: 26000,
     period: "year",
     features: [
       "2 users",
@@ -86,9 +86,25 @@ const plans = [
       "2 sessions / user (1 app, 1 web)",
       "Up to 10,000 km",
       "Standard support",
-      "Add-on: ₹4,000 / user – additional user",
+      
     ],
     theme: "plan-purple",
+  },
+  {
+    id: 6,
+    icon: Database,
+    name: "Plan – CRM Integration",
+    description: "₹9,999 (One-Time Charge)",
+    price: 9999,
+    period: "year",
+    features: [
+      "One-time CRM integration",
+      "Basic data sync",
+      "Secure API connection",
+      "App & Web supported",
+      "Standard integration support",
+    ],
+    theme: "plan-teal",
   },
 ];
 
