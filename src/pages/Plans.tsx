@@ -22,7 +22,7 @@ const plans = [
     features: [
       "Single user",
       "50 km",
-      "Demo videos",
+      
     ],
     theme: "plan-green",
   },
