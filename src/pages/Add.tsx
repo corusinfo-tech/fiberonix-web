@@ -532,8 +532,8 @@ export default function Add() {
         const res = await fetchOffices();
         setOffices(res || []);
       } catch (error) {
-        console.error("Error fetching olt:", error);
-        toast.error("Failed to load olt");
+        console.error("Error fetching Fiber Route:", error);
+        toast.error("Failed to load Fiber Route");
       } finally {
         setLoading(false);
       }
@@ -617,7 +617,7 @@ export default function Add() {
     return (
       <NetworkLayout>
         <div className="flex items-center justify-center h-64">
-          <p>Loading olt's...</p>
+          <p>Loading Fiber Route's...</p>
         </div>
       </NetworkLayout>
     );
@@ -631,9 +631,9 @@ export default function Add() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold">OLT Management</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold">Fiber Route Management</h1>
             <p className="text-muted-foreground text-sm sm:text-base">
-              Manage your network OLTs
+              Manage your Fiber Routes
             </p>
           </div>
           <Button
@@ -648,7 +648,7 @@ export default function Add() {
               setIsAddMapOpen(true);
             }}
           >
-            <Plus className="w-4 h-4 mr-2" /> Add OLT
+            <Plus className="w-4 h-4 mr-2" /> Add Fiber Route
           </Button>
         </div>
 
@@ -656,7 +656,7 @@ export default function Add() {
         <div className="relative w-full md:w-64">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search OLT's..."
+            placeholder="Search Fiber Routes..."
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

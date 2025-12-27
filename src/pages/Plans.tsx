@@ -90,23 +90,25 @@ const plans = [
     ],
     theme: "plan-purple",
   },
-  {
-    id: 6,
-    icon: Database,
-    name: "Plan – CRM Integration",
-    description: "₹9,999 (One-Time Charge)",
-    price: 9999,
-    period: "year",
-    features: [
-      "One-time CRM integration",
-      "Basic data sync",
-      "Secure API connection",
-      "App & Web supported",
-      "Standard integration support",
-    ],
-    theme: "plan-teal",
-  },
+
 ];
+
+const crmPlan = {
+  id: 6,
+  icon: Database,
+  name: "Plan – CRM Integration",
+  description: "₹9,999 (One-Time Charge)",
+  price: 9999,
+  period: "one-time",
+  features: [
+    "One-time CRM integration",
+    "Basic data sync",
+    "Secure API connection",
+    "App & Web supported",
+    "Standard integration support",
+  ],
+  theme: "plan-teal",
+};
 
 export default function Plans() {
   const { token } = useAuth();
@@ -194,14 +196,14 @@ export default function Plans() {
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`flex flex-col justify-between p-6 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 ${plan.theme}`}
+              className={`flex flex-col h-full p-6 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 ${plan.theme}`}
             >
               <div className="icon-box flex justify-center items-center w-10 h-10 rounded-lg mb-4">
                 <plan.icon className="w-6 h-6" />
               </div>
 
-              <h3 className="text-lg font-semibold">{plan.name}</h3>
-              <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
+              <h3 className="text-lg font-semibold min-h-[3.5rem] flex items-center">{plan.name}</h3>
+              <p className="text-sm text-gray-500 mb-4 min-h-[2.5rem]">{plan.description}</p>
 
               <div className="text-2xl font-bold">
                 ₹{plan.price.toLocaleString()}
@@ -223,7 +225,7 @@ export default function Plans() {
               <button
                 disabled={loading || currentPlan === plan.name}
                 onClick={() => handleSelectPlan(plan.price, plan.name)}
-                className={`select-btn mt-6 w-full py-2 rounded-lg ${
+                className={`select-btn mt-auto w-full py-2 rounded-lg ${
                   currentPlan === plan.name
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -233,6 +235,37 @@ export default function Plans() {
               </button>
             </div>
           ))}
+        </div>
+
+        {/* CRM Integration Plan - Horizontal Card */}
+        <div
+          className={`flex flex-col md:flex-row items-center justify-between p-8 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 ${crmPlan.theme}`}
+        >
+          <div className="flex items-center gap-6 mb-6 md:mb-0">
+            <div className="icon-box flex justify-center items-center w-16 h-16 rounded-lg flex-shrink-0">
+              <crmPlan.icon className="w-8 h-8" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-semibold">{crmPlan.name}</h3>
+              <p className="text-gray-500 mt-1">{crmPlan.description}</p>
+            </div>
+          </div>
+
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700 mb-6 md:mb-0">
+            {crmPlan.features.map((feature, index) => (
+              <li key={index} className="flex items-center">
+                <span className="text-green-500 mr-2">✔</span>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="text-3xl font-bold whitespace-nowrap">
+            ₹{crmPlan.price.toLocaleString()}
+            <span className="text-sm font-normal text-gray-500 block text-right">
+              One-time
+            </span>
+          </div>
         </div>
       </div>
     </NetworkLayout>

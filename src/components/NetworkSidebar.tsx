@@ -40,7 +40,7 @@ const menuItems = [
   //   icon: Map,
   // },
   {
-    title: "OLT",
+    title: "Fiber Route",
     url: "/add",
     icon: Server,
   },

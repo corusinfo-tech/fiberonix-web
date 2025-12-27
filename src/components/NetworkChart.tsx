@@ -102,7 +102,7 @@ export function NetworkChart() {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {/* Revenue Chart */}
-      <Card className="col-span-full lg:col-span-2 border-border/50 bg-card/50 backdrop-blur-sm">
+      {/* <Card className="col-span-full lg:col-span-2 border-border/50 bg-card/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             Monthly Revenue & Growth
@@ -137,7 +137,7 @@ export function NetworkChart() {
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Network Entities Distribution */}
       <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
@@ -186,7 +186,7 @@ export function NetworkChart() {
       </Card>
 
       {/* Network Health */}
-      <Card className="col-span-full border-border/50 bg-card/50 backdrop-blur-sm">
+      {/* <Card className="col-span-full border-border/50 bg-card/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             Network Performance (24h)
@@ -226,7 +226,7 @@ export function NetworkChart() {
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }
