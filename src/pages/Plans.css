@@ -137,3 +137,18 @@
 .plan-teal .select-btn:hover {
   background-color: #00796b;
 }
+/* Enterprise Plan - Gold Theme */
+.plan-gold .icon-box {
+  background-color: #fff9c4;
+  color: #fbc02d;
+}
+.plan-gold .progress-bar {
+  background-color: #fbc02d;
+}
+.plan-gold .select-btn {
+  background-color: #fbc02d;
+  color: #fff;
+}
+.plan-gold .select-btn:hover {
+  background-color: #f57f17;
+}

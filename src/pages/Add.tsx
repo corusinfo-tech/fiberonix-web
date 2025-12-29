@@ -717,7 +717,7 @@ export default function Add() {
                           View Details
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => openEditModal(office)}>
-                          Edit OLT
+                          Edit Fiber Route
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => openMapModal(office)}>
                           Show on Map
@@ -800,7 +800,7 @@ export default function Add() {
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
         <DialogContent className="max-w-lg w-[95%] rounded-xl">
           <DialogHeader>
-            <DialogTitle>OLT Details</DialogTitle>
+            <DialogTitle>Fiber Route Details</DialogTitle>
           </DialogHeader>
           {viewData && (
             <div className="grid grid-cols-1 gap-3 text-sm">
@@ -828,7 +828,7 @@ export default function Add() {
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogContent className="max-w-lg w-[95%] rounded-xl">
           <DialogHeader>
-            <DialogTitle>Edit OLT</DialogTitle>
+            <DialogTitle>Edit Fiber Route</DialogTitle>
           </DialogHeader>
           {editData && (
             <div className="space-y-3">

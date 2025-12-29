@@ -196,7 +196,11 @@ export default function Plans() {
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`flex flex-col h-full p-6 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 ${plan.theme}`}
+              className={`flex flex-col h-full p-6 rounded-2xl border ${
+                plan.name === "Plan Enterprise"
+                  ? "border-purple-500 border-2 shadow-2xl relative z-10"
+                  : "border-gray-200 shadow-md hover:shadow-lg"
+              } transition-all duration-300 ${plan.theme}`}
             >
               <div className="icon-box flex justify-center items-center w-10 h-10 rounded-lg mb-4">
                 <plan.icon className="w-6 h-6" />
