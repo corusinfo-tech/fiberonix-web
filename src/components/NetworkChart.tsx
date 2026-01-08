@@ -100,7 +100,7 @@ export function NetworkChart() {
   }, []);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="w-full h-full">
       {/* Revenue Chart */}
       {/* <Card className="col-span-full lg:col-span-2 border-border/50 bg-card/50 backdrop-blur-sm">
         <CardHeader>
@@ -140,7 +140,7 @@ export function NetworkChart() {
       </Card> */}
 
       {/* Network Entities Distribution */}
-      <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+      <Card className="border-border/50 bg-card/50 backdrop-blur-sm h-full">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Network Entities</CardTitle>
         </CardHeader>

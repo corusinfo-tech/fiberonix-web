@@ -63,7 +63,7 @@ export class CouplerData {
   constructor(
     inputPower: number = 0,
     couplerType: string = "10/90",
-    lossPerKm: number = 0.2,
+    lossPerKm: number = 0.01,
     distance1: number = 0,
     distance2: number = 0,
     id?: number
@@ -141,7 +141,7 @@ export class CouplerData {
     return new CouplerData(
       0, // inputPower will be calculated
       normalized,
-      0.2, // default lossPerKm
+      0.01, // default lossPerKm
       parseFloat(json.tap_km) || 0,
       parseFloat(json.throughput_km) || 0,
       json.id
