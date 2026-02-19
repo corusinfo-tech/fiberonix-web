@@ -78,9 +78,9 @@ export default function HomePage() {
                     <p className="text-xl text-muted-foreground leading-relaxed">
                       FiberOnix is a sophisticated optical distributed network
                       mapping solution that has been developed and is managed by{" "}
-                      <a href="https://rcubeventures.co.in/">
+                      <a href="https://zentryxglobal.com/">
                         <span className="font-bold text-primary">
-                          Rcube Ventures & Infrastructure Pvt Ltd
+                        Zentryx Global Systems Pvt Ltd
                         </span>
                       </a>{" "}
                       . It allows for the precise tracking of devices,
@@ -433,7 +433,7 @@ export default function HomePage() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="https://rcubeventures.co.in/about.html"
+                      href="https://zentryxglobal.com/about.html"
                       className="hover:text-primary transition-colors"
                     >
                       About
@@ -441,24 +441,24 @@ export default function HomePage() {
                   </li>
                   <li>
                     <a
-                      href="https://rcubeventures.co.in/blog.html"
+                      href="https://zentryxglobal.com/career.html"
                       className="hover:text-primary transition-colors"
                     >
-                      Blog
+                      Career
                     </a>
                   </li>
 
                   <li>
                     <a
-                      href="https://rcubeventures.co.in/services.html"
+                      href="https://zentryxglobal.com/blog.html"
                       className="hover:text-primary transition-colors"
                     >
-                      Services
+                      Blog
                     </a>
                   </li>
                   <li>
                     <a
-                      href="https://rcubeventures.co.in/contact.html"
+                      href="https://zentryxglobal.com/contact.html"
                       className="hover:text-primary transition-colors"
                     >
                       Contact Us
@@ -476,8 +476,8 @@ export default function HomePage() {
               <p>
                 Designed & Developed By 
                 <span className="font-bold">
-                  <a href="https://rcubeventures.co.in/index.html">
-                    Rcube Ventures & Infrastructure Pvt Ltd
+                  <a href="https://zentryxglobal.com/index.html">
+                  Zentryx Global Systems Pvt Ltd
                   </a>
                 </span>
               </p>
