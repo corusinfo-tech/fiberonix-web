@@ -153,9 +153,9 @@ const LinkBudgetGraph = () => {
         </div>
 
         {/* 🔷 Content */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* 🔷 Left Panel (Inputs) */}
-        <div className="w-80 p-4 border-r border-white/10 space-y-4 overflow-y-auto">
+        <div className="w-full md:w-80 p-4 border-b md:border-b-0 md:border-r border-white/10 space-y-4 overflow-y-auto max-h-[35vh] md:max-h-none shrink-0">
           <h2 className="font-semibold text-lg">Inputs</h2>
 
           {[
@@ -187,7 +187,7 @@ const LinkBudgetGraph = () => {
         </div>
 
         {/* 🔷 Graph */}
-        <div className="flex-1">
+        <div className="flex-1 min-h-[300px] md:min-h-0">
           <ReactFlow nodes={nodes} edges={edges} fitView>
             <Background />
             <Controls />
