@@ -75,6 +75,11 @@ const menuItems = [
     icon: FileText,
   },
   {
+    title: "Link Budget",
+    url: "/link-budget-graph",
+    icon: Zap,
+  },
+  {
     title: "Payments",
     url: "/payments",
     icon: CreditCard,

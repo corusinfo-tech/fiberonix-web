@@ -25,6 +25,7 @@ import StaffList from "./pages/StaffList";
 import ForgotPassword from "./pages/ForgotPassword";
 import NetworkDesign from "./pages/NetworkDesign";
 import CouplerFlowPage from "./pages/CouplerFlowPage";
+import LinkBudgetGraph from "./pages/LinkBudgetGraph";
 
 Navigate;
 
@@ -114,11 +115,21 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/network-design/:id"
               element={
                 <ProtectedRoute>
                   <CouplerFlowPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/link-budget-graph"
+              element={
+                <ProtectedRoute>
+                  <LinkBudgetGraph />
                 </ProtectedRoute>
               }
             />
