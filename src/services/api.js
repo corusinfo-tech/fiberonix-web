@@ -41,7 +41,48 @@ api.interceptors.response.use(
     }
     return response;
   },
-  (error) => Promise.reject(error)
+  async (error) => {
+    const originalRequest = error.config;
+    // Catch 401 Unauthorized errors
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (!refreshToken) {
+          throw new Error("No refresh token available");
+        }
+
+        // Request a new access token using the refresh token
+        // Update the URL if your backend refresh endpoint is different
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/opticalfiber/token/refresh/`, {
+          refresh: refreshToken,
+        });
+
+        // Add Bearer prefix to the newly refreshed token
+        const newAccessToken = `Bearer ${response.data.access}`;
+        
+        // Save the new access token
+        localStorage.setItem("authToken", newAccessToken);
+        
+        // If the backend also rotates the refresh token, save it
+        if (response.data.refresh) {
+          localStorage.setItem("refreshToken", response.data.refresh);
+        }
+
+        // Retry the original request with the new token
+        originalRequest.headers.Authorization = newAccessToken;
+        return api(originalRequest);
+      } catch (refreshError) {
+        // If refresh fails (e.g. refresh token expired), clean up and force re-login
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("authName");
+        window.location.href = "/login";
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
+  }
 );
 
 function inferResource(url) {

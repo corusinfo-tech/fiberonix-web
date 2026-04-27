@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("authToken") || null);
+  const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") || null);
   const [name, setName] = useState(localStorage.getItem("authName") || null);
  
 
@@ -17,6 +18,15 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  // Sync refresh token to localStorage
+  useEffect(() => {
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken);
+    } else {
+      localStorage.removeItem("refreshToken");
+    }
+  }, [refreshToken]);
+
   // Sync name to localStorage
   useEffect(() => {
     if (name) {
@@ -28,25 +38,28 @@ export const AuthProvider = ({ children }) => {
 
   
 
-  const login = (token, name) => {
-    setToken(token);
-    setName(name);
+  const login = (accessToken, refreshTokenValue, userName) => {
+    setToken(accessToken);
+    setRefreshToken(refreshTokenValue);
+    setName(userName);
   };
 
   const logout = () => {
     setToken(null);
+    setRefreshToken(null);
     setName(null);
-    setCompanyId(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         token,
+        refreshToken,
         name,
         login,
         logout,
         isAuthenticated: !!token,
+        setToken,
       }}
     >
       {children}

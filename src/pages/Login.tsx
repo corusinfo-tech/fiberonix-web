@@ -107,7 +107,8 @@ export default function Login() {
     try {
       const res = await loginUser(data);
       toast.success("Login successful!");
-      login(res.token, res.name);
+      // Prepend Bearer to the access token as expected by JWT authentication
+      login(`Bearer ${res.access}`, res.refresh, res.user?.name || res.name);
       resetLogin();
       setTimeout(() => navigate("/dashboard"), 500);
     } catch (error) {
