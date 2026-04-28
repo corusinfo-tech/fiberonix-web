@@ -11,87 +11,20 @@ declare global {
   interface Window {}
 }
 
-const plans = [
-  {
-    id: 1,
-    icon: Globe,
-    name: "Free",
-    description: "Single user",
-    price: 0,
-    period: "year",
-    features: [
-      "Single user",
-      "50 km",
-      
-    ],
-    theme: "plan-green",
-  },
-  {
-    id: 2,
-    icon: Zap,
-    name: "Plan Starter",
-    description: "500 km",
-    price: 12000,
-    period: "year",
-    features: [
-      "Single user – App / Web",
-      "1 session / user",
-      "500 km",
-      "Standard support",
-      "Add-on: ₹3,000 / year – additional user",
-    ],
-    theme: "plan-blue",
-  },
-  {
-    id: 3,
-    icon: Map,
-    name: "Plan Standard",
-    description: "1,000 km",
-    price: 18000,
-    period: "year",
-    features: [
-      "2 users",
-      "2 sessions total (1 app, 1 web)",
-      "1,000 km",
-      "Standard support",
-      "Add-on: ₹4,000 / year – additional users",
-    ],
-    theme: "plan-orange",
-  },
-  {
-    id: 4,
-    icon: Route,
-    name: "Plan Pro",
-    description: "2,000 km",
-    price: 26000,
-    period: "year",
-    features: [
-      "2 users",
-      "2 sessions / user (1 app, 1 web)",
-      "2,000 km",
-      "Standard support",
-      "Add-on: ₹4,000 / user – additional user",
-    ],
-    theme: "plan-red",
-  },
-  {
-    id: 5,
-    icon: Navigation,
-    name: "Plan Enterprise",
-    description: "Up to 10,000 km",
-    price: 48000,
-    period: "year",
-    features: [
-      "Unlimited users",
-      "2 sessions / user (1 app, 1 web)",
-      "Up to 10,000 km",
-      "Standard support",
-      
-    ],
-    theme: "plan-purple",
-  },
+const ICONS = [Globe, Zap, Map, Route, Navigation];
+const THEMES = ["plan-green", "plan-blue", "plan-orange", "plan-red", "plan-purple"];
 
-];
+interface ApiPlan {
+  id: number;
+  name: string;
+  price: string;
+  duration_days: number;
+  max_users: number;
+  max_customers: number;
+  max_devices: number;
+  max_junctions: number;
+  max_km: number;
+}
 
 const crmPlan = {
   id: 6,
@@ -115,6 +48,56 @@ export default function Plans() {
   const [loading, setLoading] = useState(false);
   const [cashfree, setCashfree] = useState<any>(null);
   const [currentPlan, setCurrentPlan] = useState<string | null>(null);
+  const [apiPlans, setApiPlans] = useState<ApiPlan[]>([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        setLoadingPlans(true);
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+        if (token) {
+          headers["Authorization"] = typeof token === "string" && token.startsWith("Bearer") ? token : `Bearer ${token}`;
+        }
+        
+        const res = await fetch("https://backend.fiberonix.in/api/payment/plans/", {
+          headers,
+        });
+        
+        if (!res.ok) throw new Error("Failed to fetch plans");
+        const data = await res.json();
+        setApiPlans(data);
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+      } finally {
+        setLoadingPlans(false);
+      }
+    };
+    fetchPlans();
+  }, [token]);
+
+  const mappedPlans = apiPlans.map((plan, index) => {
+    const Icon = ICONS[index % ICONS.length];
+    const theme = THEMES[index % THEMES.length];
+    return {
+      id: plan.id,
+      icon: Icon,
+      name: plan.name,
+      description: `Up to ${plan.max_km} km`,
+      price: parseFloat(plan.price),
+      period: plan.duration_days === 365 ? "year" : plan.duration_days === 30 ? "month" : `${plan.duration_days} days`,
+      features: [
+        `${plan.max_users} user${plan.max_users !== 1 ? "s" : ""}`,
+        `${plan.max_km} km route length`,
+        `${plan.max_customers} customers`,
+        `${plan.max_devices} devices`,
+        `${plan.max_junctions} junctions`,
+      ],
+      theme: theme,
+    };
+  });
 
   // Load Cashfree SDK once
   useEffect(() => {
@@ -193,52 +176,62 @@ export default function Plans() {
     <NetworkLayout>
       <div className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={`flex flex-col h-full p-6 rounded-2xl border ${
-                plan.name === "Plan Enterprise"
-                  ? "border-purple-500 border-2 shadow-2xl relative z-10"
-                  : "border-gray-200 shadow-md hover:shadow-lg"
-              } transition-all duration-300 ${plan.theme}`}
-            >
-              <div className="icon-box flex justify-center items-center w-10 h-10 rounded-lg mb-4">
-                <plan.icon className="w-6 h-6" />
-              </div>
-
-              <h3 className="text-lg font-semibold min-h-[3.5rem] flex items-center">{plan.name}</h3>
-              <p className="text-sm text-gray-500 mb-4 min-h-[2.5rem]">{plan.description}</p>
-
-              <div className="text-2xl font-bold">
-                ₹{plan.price.toLocaleString()}
-                <span className="text-sm font-normal text-gray-500">
-                  {" "}
-                  / {plan.period}
-                </span>
-              </div>
-
-              <ul className="mt-4 space-y-1 text-sm text-gray-700">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-green-500 mr-2 mt-1">✔</span>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                disabled={loading || currentPlan === plan.name}
-                onClick={() => handleSelectPlan(plan.price, plan.name)}
-                className={`select-btn mt-auto w-full py-2 rounded-lg ${
-                  currentPlan === plan.name
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 text-white"
-                }`}
-              >
-                {currentPlan === plan.name ? "Current Plan" : "Select Plan"}
-              </button>
+          {loadingPlans ? (
+            <div className="col-span-full py-10 flex justify-center text-gray-500">
+              Loading plans...
             </div>
-          ))}
+          ) : mappedPlans.length > 0 ? (
+            mappedPlans.map((plan, index) => (
+              <div
+                key={plan.id}
+                className={`flex flex-col h-full p-6 rounded-2xl border ${
+                  plan.name.toLowerCase().includes("enterprise") || index === mappedPlans.length - 1
+                    ? "border-purple-500 border-2 shadow-2xl relative z-10"
+                    : "border-gray-200 shadow-md hover:shadow-lg"
+                } transition-all duration-300 ${plan.theme}`}
+              >
+                <div className="icon-box flex justify-center items-center w-10 h-10 rounded-lg mb-4">
+                  <plan.icon className="w-6 h-6" />
+                </div>
+
+                <h3 className="text-lg font-semibold min-h-[3.5rem] flex items-center">{plan.name}</h3>
+                <p className="text-sm text-gray-500 mb-4 min-h-[2.5rem]">{plan.description}</p>
+
+                <div className="text-2xl font-bold">
+                  ₹{plan.price.toLocaleString()}
+                  <span className="text-sm font-normal text-gray-500">
+                    {" "}
+                    / {plan.period}
+                  </span>
+                </div>
+
+                <ul className="mt-4 space-y-1 text-sm text-gray-700">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start">
+                      <span className="text-green-500 mr-2 mt-1">✔</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  disabled={loading || currentPlan === plan.name}
+                  onClick={() => handleSelectPlan(plan.price, plan.name)}
+                  className={`select-btn mt-auto w-full py-2 rounded-lg ${
+                    currentPlan === plan.name
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                  }`}
+                >
+                  {currentPlan === plan.name ? "Current Plan" : "Select Plan"}
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full py-10 flex justify-center text-gray-500">
+              No plans available.
+            </div>
+          )}
         </div>
 
         {/* CRM Integration Plan - Horizontal Card */}
