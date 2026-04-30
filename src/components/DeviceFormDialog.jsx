@@ -74,7 +74,7 @@ export default function DeviceFormDialog({
         port_count: parseInt(newDevice.port_count),
         supported_protocols: newDevice.supported_protocols,
         latitude: parseFloat(newDevice.latitude),
-        logitutde: parseFloat(newDevice.logitutde),
+        longitude: parseFloat(newDevice.longitude),
         office: mapData.id,
         staff: 1,
       };
@@ -320,7 +320,7 @@ export default function DeviceFormDialog({
           <div>
             <Label>Longitude</Label>
             <Input
-              value={newDevice.logitutde || ""}
+              value={newDevice.longitude || ""}
               readOnly
               className="bg-gray-100 cursor-not-allowed"
             />

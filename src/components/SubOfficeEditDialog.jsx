@@ -29,8 +29,8 @@ export default function SubOfficeEditDialog({
     if (!subData.address?.trim()) newErrors.address = "Address is required";
     if (!subData.latitude || isNaN(parseFloat(subData.latitude)))
       newErrors.latitude = "Invalid latitude";
-    if (!subData.logitude || isNaN(parseFloat(subData.logitude)))
-      newErrors.logitude = "Invalid longitude";
+    if (!subData.longitude || isNaN(parseFloat(subData.longitude)))
+      newErrors.longitude = "Invalid longitude";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -44,7 +44,7 @@ export default function SubOfficeEditDialog({
         name: subData.name.trim(),
         address: subData.address.trim(),
         latitude: parseFloat(subData.latitude),
-        logitude: parseFloat(subData.logitude),
+        longitude: parseFloat(subData.longitude),
       });
       onUpdate(subData);
       toast.success("Sub Office updated successfully");
@@ -128,14 +128,14 @@ export default function SubOfficeEditDialog({
             <Label>Longitude</Label>
             <Input
               type="number"
-              value={subData.logitude}
+              value={subData.longitude}
               onChange={(e) =>
-                setSubData({ ...subData, logitude: e.target.value })
+                setSubData({ ...subData, longitude: e.target.value })
               }
-              className={errorClass("logitude")}
+              className={errorClass("longitude")}
             />
-            {errors.logitude && (
-              <p className="text-sm text-red-500">{errors.logitude}</p>
+            {errors.longitude && (
+              <p className="text-sm text-red-500">{errors.longitude}</p>
             )}
           </div>
         </div>

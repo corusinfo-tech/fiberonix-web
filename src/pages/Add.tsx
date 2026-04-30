@@ -379,7 +379,7 @@ export default function Add() {
     name: "",
     address: "",
     latitude: "",
-    logitude: "",
+    longitude: "",
   });
 
   // Reset function for Sub Office form
@@ -388,7 +388,7 @@ export default function Add() {
       name: "",
       address: "",
       latitude: "",
-      logitude: "",
+      longitude: "",
     });
     setClickedSubLatLng(null); // if you're tracking map clicks
   };
@@ -411,7 +411,7 @@ export default function Add() {
     port_count: "",
     supported_protocols: "",
     latitude: "",
-    logitutde: "",
+    longitude: "",
   });
 
   const resetDeviceForm = () => {
@@ -427,7 +427,7 @@ export default function Add() {
       port_count: "",
       supported_protocols: "",
       latitude: "",
-      logitutde: "",
+      longitude: "",
     });
     setClickedDeviceLatLng(null);
   };
@@ -1007,7 +1007,7 @@ export default function Add() {
                       setNewSub({
                         ...newSub,
                         latitude: latlng.lat,
-                        logitude: latlng.lng, // <-- changed to match backend field
+                        longitude: latlng.lng,
                         office: mapData.id, // attach current office automatically
                       });
                       setIsAddSubFormOpen(true);
@@ -1020,7 +1020,7 @@ export default function Add() {
                       setNewDevice({
                         ...newDevice,
                         latitude: latlng.lat,
-                        logitutde: latlng.lng,
+                        longitude: latlng.lng,
                         office: mapData.id,
                       });
                       setIsAddDeviceFormOpen(true);
@@ -1146,14 +1146,14 @@ export default function Add() {
                 {sub.map(
                   (s) =>
                     s.latitude &&
-                    s.logitude && (
+                    (s.longitude || s.logitude) && (
                       <Marker
                         key={s.id}
-                        position={[s.latitude, s.logitude]}
+                        position={[s.latitude, s.longitude || s.logitude]}
                         icon={subOfficeIcon}
                         eventHandlers={{
                           click: () => {
-                            setSelectedItem(s);
+                            setSelectedItem({ ...s, longitude: s.longitude || s.logitude });
                             setSelectedType("sub");
                           },
                         }}
@@ -1171,7 +1171,7 @@ export default function Add() {
                 {devices.map((device) => (
                   <Marker
                     key={device.id}
-                    position={[device.latitude, device.logitutde]} // typo from API
+                    position={[device.latitude, device.longitude]}
                     icon={getDeviceIcon(device.device_type)}
                     eventHandlers={{
                       click: () => {

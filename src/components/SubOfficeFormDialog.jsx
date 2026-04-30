@@ -30,8 +30,8 @@ export default function SubOfficeFormDialog({
     if (!newSub.address?.trim()) newErrors.address = "Address is required";
     if (!newSub.latitude || isNaN(parseFloat(newSub.latitude)))
       newErrors.latitude = "Invalid latitude";
-    if (!newSub.logitude || isNaN(parseFloat(newSub.logitude)))
-      newErrors.logitude = "Invalid longitude";
+    if (!newSub.longitude || isNaN(parseFloat(newSub.longitude)))
+      newErrors.longitude = "Invalid longitude";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -44,7 +44,7 @@ export default function SubOfficeFormDialog({
         name: newSub.name.trim(),
         address: newSub.address.trim(),
         latitude: parseFloat(newSub.latitude),
-        logitude: parseFloat(newSub.logitude),
+        logitude: parseFloat(newSub.longitude),
         office: mapData.id,
         created_by: 1, // Replace with logged-in user ID if available
       };
@@ -124,14 +124,14 @@ export default function SubOfficeFormDialog({
           <div>
             <Label>Longitude</Label>
             <Input
-              value={newSub.logitude}
+              value={newSub.longitude}
               readOnly
               className={`bg-gray-100 cursor-not-allowed ${
-                errors.logitude ? "border-red-500" : ""
+                errors.longitude ? "border-red-500" : ""
               }`}
             />
-            {errors.logitude && (
-              <p className="text-sm text-red-500 mt-1">{errors.logitude}</p>
+            {errors.longitude && (
+              <p className="text-sm text-red-500 mt-1">{errors.longitude}</p>
             )}
           </div>
         </div>

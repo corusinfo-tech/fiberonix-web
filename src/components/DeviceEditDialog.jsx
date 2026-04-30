@@ -284,7 +284,7 @@ export default function DeviceEditDialog({
           <div>
             <Label>Longitude</Label>
             <Input
-              value={editData.logitutde || ""}
+              value={editData.longitude || ""}
               readOnly
               className="bg-gray-100 cursor-not-allowed"
             />

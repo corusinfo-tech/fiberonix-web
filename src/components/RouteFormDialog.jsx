@@ -105,13 +105,21 @@ export default function RouteFormDialog({
       }
     } catch (err) {
       console.error("Failed to add route:", err.response?.data || err);
-      if (err.response?.data?.message) {
-        const message = Array.isArray(err.response.data.message)
-          ? err.response.data.message.join(", ")
-          : err.response.data.message;
+      let serverErrorStr = "";
+      const resData = err.response?.data;
+      
+      if (resData) {
+        if (typeof resData === "string") serverErrorStr = resData;
+        else if (resData.error) serverErrorStr = Array.isArray(resData.error) ? resData.error.join(", ") : resData.error;
+        else if (resData.message) serverErrorStr = Array.isArray(resData.message) ? resData.message.join(", ") : resData.message;
+        else if (resData.detail) serverErrorStr = Array.isArray(resData.detail) ? resData.detail.join(", ") : resData.detail;
+        else serverErrorStr = JSON.stringify(resData);
+      }
+
+      if (serverErrorStr) {
         setErrors((prev) => ({
           ...prev,
-          server: message,
+          server: serverErrorStr,
         }));
       } else {
         toast.error("Failed to add route");
@@ -120,7 +128,7 @@ export default function RouteFormDialog({
   };
 
   const isFiberLimitError =
-    errors.server && errors.server.toLowerCase().includes("fiber length limit");
+    errors.server && errors.server.toLowerCase().includes("limit");
 
   return (
     <Dialog
@@ -141,20 +149,17 @@ export default function RouteFormDialog({
           {/* Show subscription prompt if fiber limit exceeded */}
           {isFiberLimitError && (
             <div className="p-4 border border-yellow-400 bg-yellow-50 rounded">
-              <p className="text-yellow-700 font-semibold">
-                Your fiber length limit has been exceeded.
-              </p>
-              <p className="text-sm text-yellow-600 mt-1">
-                Please upgrade your plan to draw more routes.
+              <p className="text-yellow-700 font-semibold mb-2">
+                {errors.server}
               </p>
               <Button
-                className="mt-3 bg-yellow-500 hover:bg-yellow-600 text-white"
+                className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white w-full font-semibold"
                 onClick={() => {
                   // redirect to subscription page
-                  window.location.href = "/subscribe";
+                  window.location.href = "/plans";
                 }}
               >
-                Upgrade Now
+                Upgrade Plan
               </Button>
             </div>
           )}

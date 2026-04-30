@@ -130,6 +130,7 @@ export const fetchDevices = async () => {
   const { data } = await api.get("/network-device/networkdevice/", {
     headers: { Authorization: `${token}` },
   });
+  console.log("network device data :",data)
   return data;
 };
 
@@ -350,7 +351,7 @@ export const createStaff = async (payload) => {
   const token = localStorage.getItem("authToken"); 
   const { data } = await api.post("/opticalfiber/company/staffs/", payload, {
     headers: {
-      Authorization: ` ${token}`,
+      Authorization: `${token}`,
     },
   });
   return data;

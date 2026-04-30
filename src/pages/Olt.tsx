@@ -212,7 +212,7 @@ export default function Offices() {
     const loadDevices = async () => {
       try {
         const res = await fetchDevices();
-        setAllDevices(res.results || []); // <-- Use .results here
+        setAllDevices(res.results || []);
       } catch (e) {
         toast.error("Failed to load devices");
       }
