@@ -497,14 +497,16 @@ export default function Add() {
       }
 
       // Devices
-      const devicesForOffice = allDevices.filter((d) => d.office === office.id);
-      setDevices(Array.isArray(devicesForOffice) ? devicesForOffice : []);
+      const safeDevices = Array.isArray(allDevices) ? allDevices : [];
+      const devicesForOffice = safeDevices.filter((d) => d.office === office.id);
+      setDevices(devicesForOffice);
 
       // Junctions
-      const junctionsForOffice = allJunctions.filter(
+      const safeJunctions = Array.isArray(allJunctions) ? allJunctions : [];
+      const junctionsForOffice = safeJunctions.filter(
         (j) => j.office === office.id
       );
-      setJunctions(Array.isArray(junctionsForOffice) ? junctionsForOffice : []);
+      setJunctions(junctionsForOffice);
 
       // **Sub-offices**
       try {
@@ -519,6 +521,7 @@ export default function Add() {
 
       setIsMapOpen(true);
     } catch (err) {
+      console.error("Map Open Error:", err);
       toast.error("Error loading map data");
     } finally {
       setLoading(false);

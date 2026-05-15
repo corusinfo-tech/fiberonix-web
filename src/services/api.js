@@ -9,6 +9,16 @@ const api = axios.create({
   },
 });
 
+// Helper to reliably extract arrays from various DRF/Django response structures Let's check `api.interceptors.response.use`
+const extractArray = (data) => {
+  if (!data) return [];
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data.results)) return data.results;
+  if (Array.isArray(data.data)) return data.data;
+  if (data.data && Array.isArray(data.data.results)) return data.data.results;
+  return [];
+};
+
 // Attach interceptor to record mutating activities
 api.interceptors.response.use(
   (response) => {
@@ -130,8 +140,8 @@ export const fetchDevices = async () => {
   const { data } = await api.get("/network-device/networkdevice/", {
     headers: { Authorization: `${token}` },
   });
-  console.log("network device data :",data)
-  return data;
+  console.log("network device data :",data)  
+  return extractArray(data);
 };
 
 // DELETE DEVICE
@@ -159,7 +169,7 @@ export const fetchOffices = async () => {
   const { data } = await api.get("/office/add/", {
     headers: { Authorization: `${token}` },
   });
-  return data;
+  return extractArray(data);
 };
 
 // UPDATE offices
@@ -205,7 +215,7 @@ export const fetchCustomers = async (officeId) => {
   const { data } = await api.get(`/customer/list/${officeId}/`, {
     headers: { Authorization: `${token}` },
   });
-  return data;
+  return extractArray(data);
 };
 
 // Fetch customers for ALL offices
@@ -217,12 +227,13 @@ export const fetchAllCustomers = async () => {
       .get(`/customer/list/${office.id}/`, {
         headers: { Authorization: `${token}` },
       })
-      .then((res) =>
-        res.data.map((cust) => ({
+      .then((res) => {
+        const custArray = extractArray(res.data);
+        return custArray.map((cust) => ({
           ...cust,
           officeName: office.name, // attach office name
-        }))
-      )
+        }));
+      })
   );
   const allCustomers = await Promise.all(customerPromises);
   return allCustomers.flat();
@@ -260,7 +271,8 @@ export const fetchJunctions = async () => {
   const { data } = await api.get("/junction/add/", {
     headers: { Authorization: `${token}` },
   });
-  return data;
+  
+  return extractArray(data); 
 };
 
 // DELETE JUNCTION
@@ -286,7 +298,7 @@ export const fetchRoutesByOffice = async (officeId) => {
   const { data } = await api.get(`/route/list/${officeId}/`, {
     headers: { Authorization: `${token}` },
   });
-  return data;
+  return extractArray(data);
 };
 
 // CREATE route
@@ -315,7 +327,7 @@ export const fetchSub = async () => {
   const { data } = await api.get("/office/branch/add/", {
     headers: { Authorization: `${token}` },
   });
-  return data;
+  return extractArray(data);
 };
 
 // DELETE suboffice

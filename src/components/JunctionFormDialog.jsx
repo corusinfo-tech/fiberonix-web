@@ -52,10 +52,9 @@ export default function JunctionFormDialog({
       const created = await createJunction(payload);
       toast.success("Junction added successfully");
 
-      if (created.office === mapData.id) {
-        setJunctions((prev) => [...prev, created]);
-      }
-      setAllJunctions((prev) => [...prev, created]);
+      const newJunctionObj = { ...payload, ...created };
+      setJunctions((prev) => (Array.isArray(prev) ? [...prev, newJunctionObj] : [newJunctionObj]));
+      setAllJunctions((prev) => (Array.isArray(prev) ? [...prev, newJunctionObj] : [newJunctionObj]));
 
       onOpenChange(false);
       resetJunctionForm();

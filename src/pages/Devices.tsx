@@ -288,7 +288,7 @@ export default function Devices() {
           fetchDevices(),
           fetchOffices(),
         ]);
-        setDevices(deviceRes.results || []);
+        setDevices(deviceRes || []);
         setOffices(officeRes || []);
       } catch (error) {
         console.error("Error fetching data:", error.response || error);

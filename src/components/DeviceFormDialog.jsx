@@ -83,10 +83,9 @@ export default function DeviceFormDialog({
       const created = await createDevice(payload);
       toast.success("Device added successfully");
 
-      if (created.office === mapData.id) {
-        setDevices((prev) => [...prev, created]);
-      }
-      setAllDevices((prev) => [...prev, created]);
+      const newDeviceObj = { ...payload, ...created };
+      setDevices((prev) => (Array.isArray(prev) ? [...prev, newDeviceObj] : [newDeviceObj]));
+      setAllDevices((prev) => (Array.isArray(prev) ? [...prev, newDeviceObj] : [newDeviceObj]));
 
       onOpenChange(false);
       resetDeviceForm();
