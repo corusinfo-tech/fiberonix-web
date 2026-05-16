@@ -128,6 +128,7 @@ export default function Login() {
   // Step 1 Submit
   const onCompanySubmit = (data) => {
     setCompanyData(data);
+     
     setSignupStep(2);
   };
 
